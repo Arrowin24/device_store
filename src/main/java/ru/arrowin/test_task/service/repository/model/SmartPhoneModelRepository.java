@@ -29,7 +29,7 @@ public interface SmartPhoneModelRepository
         return (root, query, criteriaBuilder) -> {
             Expression<String> lowerCaseNameParam = criteriaBuilder.lower(criteriaBuilder.literal(country));
             Expression<String> lowerCaseNameField = criteriaBuilder.lower(
-                    root.get(ModelType.SMARTPHONE.getModelTypeName().toLowerCase()).get("country"));
+                    root.get("smartphone").get("country"));
             return criteriaBuilder.equal(lowerCaseNameField, lowerCaseNameParam);
         };
     }

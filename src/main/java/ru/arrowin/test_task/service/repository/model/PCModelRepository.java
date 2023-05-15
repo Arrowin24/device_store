@@ -35,7 +35,7 @@ public interface PCModelRepository
 
     default Specification<PCModel> hasOnlineOrder(boolean isOnlineOrderAvailable) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(
-                root.get(ModelType.REFRIGERATOR.getModelTypeName().toLowerCase()).get("isOnlineOrderAvailable"),
+                root.get(ModelType.PC.getModelTypeName().toLowerCase()).get("isOnlineOrderAvailable"),
                 isOnlineOrderAvailable);
     }
 

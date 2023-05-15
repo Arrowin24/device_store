@@ -2,6 +2,7 @@ package ru.arrowin.test_task.service;
 
 import ru.arrowin.test_task.model.models.Model;
 import ru.arrowin.test_task.model.models.ModelType;
+import ru.arrowin.test_task.service.impl.SortType;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface DeviceService {
             ModelType modelType, String modelName, String color, Double minPrice, Double maxPrice);
 
     List<String> convertModelsToText(List<Model> models);
+
+    List<Model> sortBy(List<Model> models, SortType sortType);
 }

@@ -7,7 +7,6 @@ import ru.arrowin.test_task.service.repository.device.*;
 import ru.arrowin.test_task.service.repository.model.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -330,7 +329,7 @@ public class StartDataService {
         smartPhoneModel11.setAvailable(true);
         smartPhoneModel11.setMemory(8);
         smartPhoneModel11.setCameraNums(2);
-        smartPhoneModel11.setSmartPhone(smartPhone1);
+        smartPhoneModel11.setSmartphone(smartPhone1);
 
         SmartPhoneModel smartPhoneModel12 = new SmartPhoneModel();
         smartPhoneModel12.setSerialNum("Ph124");
@@ -343,7 +342,7 @@ public class StartDataService {
         smartPhoneModel12.setAvailable(true);
         smartPhoneModel12.setMemory(8);
         smartPhoneModel12.setCameraNums(2);
-        smartPhoneModel12.setSmartPhone(smartPhone1);
+        smartPhoneModel12.setSmartphone(smartPhone1);
 
         SmartPhoneModel smartPhoneModel21 = new SmartPhoneModel();
         smartPhoneModel21.setSerialNum("Ph125");
@@ -356,7 +355,7 @@ public class StartDataService {
         smartPhoneModel21.setAvailable(true);
         smartPhoneModel21.setMemory(12);
         smartPhoneModel21.setCameraNums(3);
-        smartPhoneModel21.setSmartPhone(smartPhone2);
+        smartPhoneModel21.setSmartphone(smartPhone2);
 
         SmartPhoneModel smartPhoneModel22 = new SmartPhoneModel();
         smartPhoneModel22.setSerialNum("Ph126");
@@ -369,7 +368,7 @@ public class StartDataService {
         smartPhoneModel22.setAvailable(true);
         smartPhoneModel22.setMemory(12);
         smartPhoneModel22.setCameraNums(3);
-        smartPhoneModel22.setSmartPhone(smartPhone2);
+        smartPhoneModel22.setSmartphone(smartPhone2);
 
         SmartPhoneModel smartPhoneModel31 = new SmartPhoneModel();
         smartPhoneModel31.setSerialNum("Ph127");
@@ -382,7 +381,7 @@ public class StartDataService {
         smartPhoneModel31.setAvailable(true);
         smartPhoneModel31.setMemory(12);
         smartPhoneModel31.setCameraNums(3);
-        smartPhoneModel31.setSmartPhone(smartPhone3);
+        smartPhoneModel31.setSmartphone(smartPhone3);
 
         SmartPhoneModel smartPhoneModel32 = new SmartPhoneModel();
         smartPhoneModel32.setSerialNum("Ph127");
@@ -395,7 +394,7 @@ public class StartDataService {
         smartPhoneModel32.setAvailable(true);
         smartPhoneModel32.setMemory(12);
         smartPhoneModel32.setCameraNums(3);
-        smartPhoneModel32.setSmartPhone(smartPhone3);
+        smartPhoneModel32.setSmartphone(smartPhone3);
 
         smartPhoneRepository.save(smartPhone1);
         smartPhoneRepository.save(smartPhone2);

@@ -10,6 +10,7 @@ public enum ModelType {
     VACUUM("vacuum"),
     REFRIGERATOR("refrigerator"),
     SMARTPHONE("smartphone"),
-    PC ("pc");
+    PC ("pc"),
+    ALL("all");
     private final String modelTypeName;
 }

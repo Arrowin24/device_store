@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SmartPhone extends Device{
-    @OneToMany(mappedBy = "smartPhone", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "smartphone", cascade = CascadeType.ALL)
     private List<SmartPhoneModel> models;
 }
 

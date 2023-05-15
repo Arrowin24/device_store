@@ -1,5 +1,8 @@
 package ru.arrowin.test_task.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.arrowin.test_task.model.models.Model;
-import ru.arrowin.test_task.model.models.TVModel;
+import ru.arrowin.test_task.model.models.ModelType;
 import ru.arrowin.test_task.service.DeviceService;
+import ru.arrowin.test_task.service.impl.SortType;
 
 import java.util.List;
 
@@ -28,6 +32,21 @@ public class DeviceController {
         this.deviceService = deviceService;
     }
 
+    @Operation(
+            summary = "Поиск техники по всем доступным параметрам",
+            description = "Получения списка техники с учетом всех фильтров"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Представлен набор отфильтрованной техники в реестре"
+                    ), @ApiResponse(
+                    responseCode = "500",
+                    description = "Ошибка сервера"
+            )
+            }
+    )
     @GetMapping(
             path = "/findByAllParams",
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -41,36 +60,103 @@ public class DeviceController {
                     name = "Страна",
                     required = false
             ) String country,
-            @RequestParam(required = false) String manufacturer,
             @RequestParam(
+                    name = "Изготовитель",
+                    required = false
+            ) String manufacturer,
+            @RequestParam(
+                    name = "Возможность заказа онлайн",
                     required = false,
                     defaultValue = "false"
             ) boolean isOnlineOrderAvailable,
             @RequestParam(
+                    name = "Возможность оформления рассрочки",
                     required = false,
                     defaultValue = "false"
             ) boolean isInstallmentAvailable,
-            @RequestParam(required = false) String serialNum,
-            @RequestParam(required = false) String modelName,
-            @RequestParam(required = false) String color,
             @RequestParam(
+                    name = "Серийный номер",
+                    required = false
+            ) String serialNum,
+            @RequestParam(
+                    name = "Название модели",
+                    required = false
+            ) String modelName,
+            @RequestParam(
+                    name = "Цвет",
+                    required = false
+            ) String color,
+            @RequestParam(
+                    name = "Максимальное значение стоимости",
                     required = false,
                     defaultValue = "1000000"
             ) double maxPrice,
             @RequestParam(
+                    name = "Минимальное значение стоимости",
                     required = false,
                     defaultValue = "0"
             ) double minPrice,
             @RequestParam(
+                    name = "Товар в наличии",
                     required = false,
                     defaultValue = "false"
-            ) boolean isAvailable)
-
+            ) boolean isAvailable,
+            @RequestParam(
+                    name = "Вид сортировки",
+                    required = false,
+                    defaultValue = "BY_NAME_INCREASING"
+            ) SortType sortType)
     {
         List<Model> models = deviceService.getDeviceByAllParams(deviceName, country, manufacturer,
                                                                 isOnlineOrderAvailable, isInstallmentAvailable,
                                                                 serialNum, modelName, color, maxPrice, minPrice,
                                                                 isAvailable);
+        models = deviceService.sortBy(models, sortType);
+        List<String> modelsToText = deviceService.convertModelsToText(models);
+        return ResponseEntity.ok(modelsToText);
+    }
+
+    @Operation(
+            summary = "Поиск техники по основным параметрам",
+            description = "Получения списка техники с учетом всех фильтров"
+    )
+    @GetMapping(
+            path = "/findByParams",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<String>> getDevicesByAllParams(
+            @RequestParam(
+                    name = "Тип техники",
+                    required = false,
+                    defaultValue = "ALL"
+            ) ModelType modelType,
+
+            @RequestParam(
+                    name = "Название модели",
+                    required = false
+            ) String modelName,
+            @RequestParam(
+                    name = "Цвет",
+                    required = false
+            ) String color,
+            @RequestParam(
+                    name = "Максимальное значение стоимости",
+                    required = false,
+                    defaultValue = "1000000"
+            ) double maxPrice,
+            @RequestParam(
+                    name = "Минимальное значение стоимости",
+                    required = false,
+                    defaultValue = "0"
+            ) double minPrice,
+            @RequestParam(
+                    name = "Вид сортировки",
+                    required = false,
+                    defaultValue = "BY_NAME_INCREASING"
+            ) SortType sortType)
+    {
+        List<Model> models = deviceService.getDeviceBy(modelType, modelName, color, minPrice, maxPrice);
+        models = deviceService.sortBy(models, sortType);
         List<String> modelsToText = deviceService.convertModelsToText(models);
         return ResponseEntity.ok(modelsToText);
     }
