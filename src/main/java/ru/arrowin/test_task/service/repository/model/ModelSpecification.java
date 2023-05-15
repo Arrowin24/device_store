@@ -1,13 +1,14 @@
 package ru.arrowin.test_task.service.repository.model;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import ru.arrowin.test_task.model.models.Model;
 
 import javax.persistence.criteria.Expression;
 
 
-public interface ModelSpecification<T extends Model> extends JpaSpecificationExecutor<T> {
+public interface ModelSpecification<T extends Model> extends JpaRepository<T, String>, JpaSpecificationExecutor<T> {
 
     static<T extends Model> Specification<T> hasDeviceName(String deviceName, String DEVICE_TYPE) {
         return (root, query, criteriaBuilder) -> {
