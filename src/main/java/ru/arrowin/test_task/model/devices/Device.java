@@ -31,7 +31,21 @@ public abstract class Device {
         return models.stream().filter(Model::isAvailable).collect(Collectors.toList());
     }
 
-    public String toTextFromDevice() {
-        return "Device{ name='" + deviceName + '\'' + ", country='" + country + '\'' + ", manufacturer" + "='" + manufacturer + '\'' + ", isOnlineOrderAvailable=" + isOnlineOrderAvailable + ", " + "isInstallmentAvailable=" + isInstallmentAvailable;
+    public String toText() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Наименование устройства: ").append(deviceName).append(" ");
+        stringBuilder.append("Страна производства: ").append(country).append(" ");
+        stringBuilder.append("Фирма производитель: ").append(manufacturer).append(" ");
+        if (isOnlineOrderAvailable) {
+            stringBuilder.append("Доступен для онлайн заказа").append(" ");
+        } else {
+            stringBuilder.append("Не доступен для онлайн заказа").append(" ");
+        }
+        if (isInstallmentAvailable) {
+            stringBuilder.append("Доступен для рассрочки").append(" ");
+        } else {
+            stringBuilder.append("Не доступен для рассрочки").append(" ");
+        }
+        return stringBuilder.toString();
     }
 }

@@ -6,6 +6,11 @@ import ru.arrowin.test_task.model.models.*;
 import ru.arrowin.test_task.service.repository.device.*;
 import ru.arrowin.test_task.service.repository.model.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class StartDataService {
 
@@ -47,6 +52,17 @@ public class StartDataService {
         uploadTV();
         uploadVacuum();
     }
+
+    public List<String> getAllData() {
+        List<Model> models = new ArrayList<>();
+        models.addAll(pcModelRepository.findAll());
+        models.addAll(refrigeratorModelRepository.findAll());
+        models.addAll(smartPhoneModelRepository.findAll());
+        models.addAll(tvModelRepository.findAll());
+        models.addAll(vacuumModelRepository.findAll());
+        return models.stream().map(Model::toText).collect(Collectors.toList());
+    }
+
     private void uploadPC() {
         PC pc1 = new PC();
         pc1.setId(1);
@@ -159,6 +175,7 @@ public class StartDataService {
         pcModelRepository.save(pcModel31);
         pcModelRepository.save(pcModel32);
     }
+
     private void uploadRefrigerator() {
         Refrigerator refrigerator1 = new Refrigerator();
         refrigerator1.setId(1);
@@ -274,6 +291,7 @@ public class StartDataService {
         refrigeratorModelRepository.save(refrigeratorModel31);
         refrigeratorModelRepository.save(refrigeratorModel32);
     }
+
     private void uploadSmartphone() {
         SmartPhone smartPhone1 = new SmartPhone();
         smartPhone1.setId(1);
@@ -391,6 +409,7 @@ public class StartDataService {
         smartPhoneModelRepository.save(smartPhoneModel32);
 
     }
+
     private void uploadTV() {
         TV tv1 = new TV();
         tv1.setId(1);
@@ -507,6 +526,7 @@ public class StartDataService {
         tvModelRepository.save(tvModel31);
         tvModelRepository.save(tvModel32);
     }
+
     private void uploadVacuum() {
         Vacuum vacuum1 = new Vacuum();
         vacuum1.setId(1);

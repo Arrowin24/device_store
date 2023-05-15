@@ -23,4 +23,15 @@ public class PCModel extends Model{
     @JoinColumn(name = "id")
     @JsonBackReference
     private PC pc;
+
+    @Override
+    public String toText() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Тип товара: PC").append(" ");
+        stringBuilder.append(super.toText());
+        stringBuilder.append("Категория: ").append(category).append(" ");
+        stringBuilder.append("Тип процессора: ").append(processorType).append(" ");
+        stringBuilder.append(pc.toText());
+        return stringBuilder.toString();
+    }
 }

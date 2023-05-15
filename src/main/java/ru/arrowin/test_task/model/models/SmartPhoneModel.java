@@ -18,9 +18,18 @@ import javax.persistence.Table;
 public class SmartPhoneModel extends Model {
     private int memory;
     private int cameraNums;
-
-
     @ManyToOne
     @JoinColumn(name = "id")
     private SmartPhone smartPhone;
+
+    @Override
+    public String toText() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Тип товара: Смартфон").append(" ");
+        stringBuilder.append(super.toText());
+        stringBuilder.append("Количество камер: ").append(cameraNums).append(" ");
+        stringBuilder.append("ОЗУ: ").append(memory).append(" ");
+        stringBuilder.append(smartPhone.toText());
+        return stringBuilder.toString();
+    }
 }
