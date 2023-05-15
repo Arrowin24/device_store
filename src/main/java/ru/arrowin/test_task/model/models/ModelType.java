@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ModelType {
-    TV("TV"),
-    VACUUM("Vacuum"),
-    REFRIGERATOR("Refrigerator"),
-    SMARTPHONE("SmartPhone"),
-    PC ("PC");
+    TV("tv"),
+    VACUUM("vacuum"),
+    REFRIGERATOR("refrigerator"),
+    SMARTPHONE("smartphone"),
+    PC ("pc");
     private final String modelTypeName;
 }

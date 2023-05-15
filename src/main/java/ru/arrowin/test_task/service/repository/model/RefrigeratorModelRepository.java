@@ -9,6 +9,7 @@ import ru.arrowin.test_task.model.models.RefrigeratorModel;
 
 
 import javax.persistence.criteria.Expression;
+
 @Repository
 public interface RefrigeratorModelRepository
         extends JpaRepository<RefrigeratorModel, String>, JpaSpecificationExecutor<RefrigeratorModel>,
@@ -32,11 +33,11 @@ public interface RefrigeratorModelRepository
             boolean isInstallmentAvailable, String serialNum, String modelName, String color, double maxPrice,
             double minPrice, boolean isAvailable, int doorsNum, String compressorType)
     {
+        Specification<RefrigeratorModel> model = ModelSpecification.combinedModelSpecification(
+                ModelType.REFRIGERATOR.getModelTypeName(), deviceName, country, manufacturer, isOnlineOrderAvailable,
+                isInstallmentAvailable, serialNum, modelName, color, maxPrice, minPrice, isAvailable);
         Specification<RefrigeratorModel> result = Specification.where(null);
-        result.and(
-                combinedModelSpecification(ModelType.REFRIGERATOR.getModelTypeName(), deviceName, country, manufacturer,
-                                           isOnlineOrderAvailable, isInstallmentAvailable, serialNum, modelName, color,
-                                           maxPrice, minPrice, isAvailable));
+        result.and(model);
         if (doorsNum > 0) {
             result = result.and(hasDoorsNum(doorsNum));
         }

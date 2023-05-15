@@ -9,7 +9,8 @@ import ru.arrowin.test_task.model.models.VacuumModel;
 
 
 @Repository
-public interface VacuumModelRepository extends JpaRepository<VacuumModel, String>, JpaSpecificationExecutor<VacuumModel>,
+public interface VacuumModelRepository
+        extends JpaRepository<VacuumModel, String>, JpaSpecificationExecutor<VacuumModel>,
         ModelSpecification<VacuumModel>
 {
     default Specification<VacuumModel> hasContainerVolume(double containerVolume) {
@@ -26,10 +27,12 @@ public interface VacuumModelRepository extends JpaRepository<VacuumModel, String
             boolean isInstallmentAvailable, String serialNum, String modelName, String color, double maxPrice,
             double minPrice, boolean isAvailable, double containerVolume, int modesNum)
     {
+        Specification<VacuumModel> model = ModelSpecification.combinedModelSpecification(
+                ModelType.VACUUM.getModelTypeName(), deviceName, country, manufacturer, isOnlineOrderAvailable,
+                isInstallmentAvailable, serialNum, modelName, color, maxPrice, minPrice, isAvailable);
+
         Specification<VacuumModel> result = Specification.where(null);
-        result.and(combinedModelSpecification(ModelType.VACUUM.getModelTypeName(), deviceName, country, manufacturer,
-                                              isOnlineOrderAvailable, isInstallmentAvailable, serialNum, modelName,
-                                              color, maxPrice, minPrice, isAvailable));
+        result.and(model);
         if (containerVolume > 0) {
             result = result.and(hasContainerVolume(containerVolume));
         }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import ru.arrowin.test_task.model.models.ModelType;
 import ru.arrowin.test_task.model.models.SmartPhoneModel;
+
 @Repository
 public interface SmartPhoneModelRepository
         extends JpaRepository<SmartPhoneModel, String>, JpaSpecificationExecutor<SmartPhoneModel>,
@@ -25,11 +26,11 @@ public interface SmartPhoneModelRepository
             boolean isInstallmentAvailable, String serialNum, String modelName, String color, double maxPrice,
             double minPrice, boolean isAvailable, int memory, int cameraNums)
     {
+        Specification<SmartPhoneModel> model = ModelSpecification.combinedModelSpecification(
+                ModelType.SMARTPHONE.getModelTypeName(), deviceName, country, manufacturer, isOnlineOrderAvailable,
+                isInstallmentAvailable, serialNum, modelName, color, maxPrice, minPrice, isAvailable);
         Specification<SmartPhoneModel> result = Specification.where(null);
-        result.and(
-                combinedModelSpecification(ModelType.SMARTPHONE.getModelTypeName(), deviceName, country, manufacturer,
-                                           isOnlineOrderAvailable, isInstallmentAvailable, serialNum, modelName, color,
-                                           maxPrice, minPrice, isAvailable));
+        result.and(model);
         if (memory > 0) {
             result = result.and(hasMemory(memory));
         }

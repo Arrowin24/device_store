@@ -6,8 +6,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import ru.arrowin.test_task.model.models.ModelType;
 import ru.arrowin.test_task.model.models.PCModel;
+import ru.arrowin.test_task.model.models.VacuumModel;
 
 import javax.persistence.criteria.Expression;
+
 @Repository
 public interface PCModelRepository
         extends JpaRepository<PCModel, String>, JpaSpecificationExecutor<PCModel>, ModelSpecification<PCModel>
@@ -34,10 +36,15 @@ public interface PCModelRepository
             boolean isInstallmentAvailable, String serialNum, String modelName, String color, double maxPrice,
             double minPrice, boolean isAvailable, String processorType, String category)
     {
+        Specification<PCModel> model = ModelSpecification.combinedModelSpecification(ModelType.PC.getModelTypeName(),
+                                                                                     deviceName, country, manufacturer,
+                                                                                     isOnlineOrderAvailable,
+                                                                                     isInstallmentAvailable, serialNum,
+                                                                                     modelName, color, maxPrice,
+                                                                                     minPrice, isAvailable);
+
         Specification<PCModel> result = Specification.where(null);
-        result.and(combinedModelSpecification(ModelType.PC.getModelTypeName(), deviceName, country, manufacturer,
-                                              isOnlineOrderAvailable, isInstallmentAvailable, serialNum, modelName,
-                                              color, maxPrice, minPrice, isAvailable));
+        result.and(model);
         if (processorType != null) {
             result = result.and(hasProcessorType(processorType));
         }

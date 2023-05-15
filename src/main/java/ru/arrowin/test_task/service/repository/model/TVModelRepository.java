@@ -12,9 +12,7 @@ import ru.arrowin.test_task.model.models.TVModel;
 import javax.persistence.criteria.Expression;
 
 @Repository
-public interface TVModelRepository
-        extends JpaRepository<TVModel, String>, JpaSpecificationExecutor<TVModel>, ModelSpecification<TVModel>
-{
+public interface TVModelRepository extends JpaRepository<TVModel, String>, JpaSpecificationExecutor<TVModel> {
     default Specification<TVModel> hasTechnology(String technology) {
         return (root, query, criteriaBuilder) -> {
             Expression<String> lowerCaseNameParam = criteriaBuilder.lower(criteriaBuilder.literal(technology));
@@ -24,6 +22,7 @@ public interface TVModelRepository
     }
 
     default Specification<TVModel> hasCategory(String category) {
+
         return (root, query, criteriaBuilder) -> {
             Expression<String> lowerCaseNameParam = criteriaBuilder.lower(criteriaBuilder.literal(category));
             Expression<String> lowerCaseNameField = criteriaBuilder.lower(root.get("category"));
@@ -38,9 +37,15 @@ public interface TVModelRepository
             double minPrice, boolean isAvailable, String technology, String category)
     {
         Specification<TVModel> result = Specification.where(null);
-        result.and(combinedModelSpecification(ModelType.TV.getModelTypeName(), deviceName, country, manufacturer,
-                                              isOnlineOrderAvailable, isInstallmentAvailable, serialNum, modelName,
-                                              color, maxPrice, minPrice, isAvailable));
+        Specification<TVModel> modelSpecification = ModelSpecification.combinedModelSpecification(
+                ModelType.TV.getModelTypeName(), deviceName, country, manufacturer, isOnlineOrderAvailable,
+                isInstallmentAvailable, serialNum, modelName, color, maxPrice, minPrice, isAvailable);
+
+
+        result.and(ModelSpecification.combinedModelSpecification(ModelType.TV.getModelTypeName(), deviceName, country,
+                                                                 manufacturer, isOnlineOrderAvailable,
+                                                                 isInstallmentAvailable, serialNum, modelName, color,
+                                                                 maxPrice, minPrice, isAvailable));
         if (technology != null) {
             result = result.and(hasTechnology(technology));
         }
