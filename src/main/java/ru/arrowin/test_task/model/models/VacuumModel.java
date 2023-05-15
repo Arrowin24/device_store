@@ -1,0 +1,27 @@
+package ru.arrowin.test_task.model.models;
+
+
+import lombok.*;
+import ru.arrowin.test_task.model.devices.Vacuum;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "vacuum_model")
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class VacuumModel extends Model{
+
+    private double containerVolume;
+    private int modesNum;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Vacuum vacuum;
+}
