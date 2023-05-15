@@ -1,15 +1,16 @@
-package ru.arrowin.test_task.service.repository;
+package ru.arrowin.test_task.service.repository.model;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 import ru.arrowin.test_task.model.models.ModelType;
 import ru.arrowin.test_task.model.models.RefrigeratorModel;
 
 
 import javax.persistence.criteria.Expression;
-
-public interface RefrigeratorRepository
+@Repository
+public interface RefrigeratorModelRepository
         extends JpaRepository<RefrigeratorModel, String>, JpaSpecificationExecutor<RefrigeratorModel>,
         ModelSpecification<RefrigeratorModel>
 {

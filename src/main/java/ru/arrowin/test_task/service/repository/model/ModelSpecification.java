@@ -1,4 +1,4 @@
-package ru.arrowin.test_task.service.repository;
+package ru.arrowin.test_task.service.repository.model;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

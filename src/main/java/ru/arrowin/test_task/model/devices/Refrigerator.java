@@ -7,10 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ru.arrowin.test_task.model.models.RefrigeratorModel;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -19,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Refrigerator extends Device {
-    @OneToMany(mappedBy = "refrigerator", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "refrigerator", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<RefrigeratorModel> models;
 }

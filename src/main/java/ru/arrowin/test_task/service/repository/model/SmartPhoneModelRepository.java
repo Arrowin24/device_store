@@ -1,12 +1,13 @@
-package ru.arrowin.test_task.service.repository;
+package ru.arrowin.test_task.service.repository.model;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 import ru.arrowin.test_task.model.models.ModelType;
 import ru.arrowin.test_task.model.models.SmartPhoneModel;
-
-public interface SmartPhoneRepository
+@Repository
+public interface SmartPhoneModelRepository
         extends JpaRepository<SmartPhoneModel, String>, JpaSpecificationExecutor<SmartPhoneModel>,
         ModelSpecification<SmartPhoneModel>
 {

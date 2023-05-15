@@ -1,14 +1,15 @@
-package ru.arrowin.test_task.service.repository;
+package ru.arrowin.test_task.service.repository.model;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 import ru.arrowin.test_task.model.models.ModelType;
 import ru.arrowin.test_task.model.models.VacuumModel;
 
 
-
-public interface VacuumRepository extends JpaRepository<VacuumModel, String>, JpaSpecificationExecutor<VacuumModel>,
+@Repository
+public interface VacuumModelRepository extends JpaRepository<VacuumModel, String>, JpaSpecificationExecutor<VacuumModel>,
         ModelSpecification<VacuumModel>
 {
     default Specification<VacuumModel> hasContainerVolume(double containerVolume) {

@@ -2,6 +2,7 @@ package ru.arrowin.test_task.model.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import ru.arrowin.test_task.model.devices.Refrigerator;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -21,5 +22,5 @@ public class RefrigeratorModel extends Model{
     @ManyToOne
     @JoinColumn(name = "id")
     @JsonBackReference
-    private RefrigeratorModel refrigerator;
+    private Refrigerator refrigerator;
 }

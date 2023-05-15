@@ -2,8 +2,7 @@ package ru.arrowin.test_task.model.models;
 
 import lombok.*;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 @Getter
@@ -12,8 +11,8 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class Model {
-    @Id private String serialNum;
-
+    @Id
+    private String serialNum;
     private String modelName;
     private String color;
     private double price;
