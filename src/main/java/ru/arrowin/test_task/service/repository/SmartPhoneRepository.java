@@ -29,10 +29,10 @@ public interface SmartPhoneRepository
                 combinedModelSpecification(ModelType.SMARTPHONE.getModelTypeName(), deviceName, country, manufacturer,
                                            isOnlineOrderAvailable, isInstallmentAvailable, serialNum, modelName, color,
                                            maxPrice, minPrice, isAvailable));
-        if (memory != 0) {
+        if (memory > 0) {
             result = result.and(hasMemory(memory));
         }
-        if (cameraNums != 0) {
+        if (cameraNums > 0) {
             result = result.and(hasCameraNums(cameraNums));
         }
         return result;

@@ -76,7 +76,6 @@ public class TVController {
             @RequestParam(required = false) String technology,
             @RequestParam(required = false) String category)
     {
-
         List<TVModel> filteredTvModels = tvService.getTVsByParam(deviceName, country, manufacturer,
                                                                  isOnlineOrderAvailable, isInstallmentAvailable,
                                                                  serialNum, modelName, color, maxPrice, minPrice,
