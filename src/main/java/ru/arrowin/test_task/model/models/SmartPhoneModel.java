@@ -1,5 +1,6 @@
 package ru.arrowin.test_task.model.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import ru.arrowin.test_task.model.devices.SmartPhone;
 
@@ -20,6 +21,7 @@ public class SmartPhoneModel extends Model {
     private int cameraNums;
     @ManyToOne
     @JoinColumn(name = "id")
+    @JsonBackReference
     private SmartPhone smartphone;
 
     @Override

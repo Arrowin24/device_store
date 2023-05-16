@@ -73,7 +73,7 @@ public class SmartphoneServiceImpl implements SmartphoneService {
             String deviceName, String country, String manufacturer, String serialNum, String modelName, String color,
             double Price, double sizeH, double sizeL, double sizeW, boolean isAvailable, int memory, int cameraNums)
     {
-        if (!smartPhoneModelRepository.findById(serialNum).isPresent()) {
+        if (smartPhoneModelRepository.findById(serialNum).isPresent()) {
             throw new DBContainsModelException();
         }
 

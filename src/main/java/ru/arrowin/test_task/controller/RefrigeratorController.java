@@ -88,7 +88,8 @@ public class RefrigeratorController {
             ) boolean isAvailable,
             @RequestParam(
                     name = "Количество дверей",
-                    required = false
+                    required = false,
+                    defaultValue = "0"
             ) int doorsNum,
             @RequestParam(
                     name = "Тип компрессора",

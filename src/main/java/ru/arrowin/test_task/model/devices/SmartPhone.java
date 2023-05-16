@@ -1,5 +1,6 @@
 package ru.arrowin.test_task.model.devices;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SmartPhone extends Device{
     @OneToMany(mappedBy = "smartphone", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<SmartPhoneModel> models;
 }
 

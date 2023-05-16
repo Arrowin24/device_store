@@ -87,12 +87,14 @@ public class SmartphoneController {
                     defaultValue = "false"
             ) boolean isAvailable,
             @RequestParam(
-                    name = "ОЗУ",
-                    required = false
+                    name = "Память",
+                    required = false,
+                    defaultValue = "0"
             ) int memory,
             @RequestParam(
                     name = "Количество камер",
-                    required = false
+                    required = false,
+                    defaultValue = "0"
             ) int cameraNums,
             @RequestParam(
                     name = "Вид сортировки",

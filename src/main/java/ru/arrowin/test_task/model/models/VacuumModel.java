@@ -1,6 +1,7 @@
 package ru.arrowin.test_task.model.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import ru.arrowin.test_task.model.devices.Vacuum;
 
@@ -22,6 +23,7 @@ public class VacuumModel extends Model {
     private int modesNum;
     @ManyToOne
     @JoinColumn(name = "id")
+    @JsonBackReference
     private Vacuum vacuum;
 
     @Override

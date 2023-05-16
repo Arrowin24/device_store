@@ -1,6 +1,7 @@
 package ru.arrowin.test_task.model.devices;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Vacuum extends Device {
     @OneToMany(mappedBy = "vacuum", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<VacuumModel> models;
 }

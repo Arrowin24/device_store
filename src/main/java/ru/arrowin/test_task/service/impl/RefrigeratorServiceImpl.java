@@ -77,7 +77,7 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
             double Price, double sizeH, double sizeL, double sizeW, boolean isAvailable, int doorsNum,
             String compressorType)
     {
-        if (!refrigeratorModelRepository.findById(serialNum).isPresent()) {
+        if (refrigeratorModelRepository.findById(serialNum).isPresent()) {
             throw new DBContainsModelException();
         }
 

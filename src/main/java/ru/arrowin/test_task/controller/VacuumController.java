@@ -88,11 +88,13 @@ public class VacuumController {
             ) boolean isAvailable,
             @RequestParam(
                     name = "Объем пылесборника",
-                    required = false
+                    required = false,
+                    defaultValue = "0"
             ) double containerVolume,
             @RequestParam(
                     name = "Количество режимов",
-                    required = false
+                    required = false,
+                    defaultValue = "0"
             ) int modesNum,
             @RequestParam(
                     name = "Вид сортировки",
@@ -145,7 +147,9 @@ public class VacuumController {
             description = "Создает и добавляет в базу данных новую модель пылесосов. Есть обязательные поля! " +
                     "Убедитесь, что вы добавляете модель в линейку пылесосов, которая уже существует."
     )
-    @PostMapping("/newVacuumModel")
+    @PostMapping(
+            path = "/newVacuumModel"
+    )
     public ResponseEntity<VacuumModel> createTVModel(
             @RequestParam(
                     name = "Название линейки"
@@ -195,7 +199,7 @@ public class VacuumController {
             @RequestParam(
                     name = "Объем пылесборника",
                     required = false,
-                    defaultValue = "0"
+                    defaultValue = "0.0"
             ) double containerVolume,
             @RequestParam(
                     name = "Количество режимов",
