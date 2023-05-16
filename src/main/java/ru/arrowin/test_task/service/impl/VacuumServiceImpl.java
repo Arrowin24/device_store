@@ -74,7 +74,7 @@ public class VacuumServiceImpl implements VacuumService {
             double Price, double sizeH, double sizeL, double sizeW, boolean isAvailable, double containerVolume,
             int modesNum)
     {
-        if (vacuumModelRepository.findById(serialNum).isPresent()) {
+        if (!vacuumModelRepository.findById(serialNum).isPresent()) {
             throw new DBContainsModelException();
         }
         Specification<Vacuum> vacuumSpecification = vacuumRepository.combinedSpecification(deviceName, country,

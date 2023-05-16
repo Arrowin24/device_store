@@ -71,7 +71,7 @@ public class PCServiceImpl implements PCService {
             double Price, double sizeH, double sizeL, double sizeW, boolean isAvailable, String processorType,
             String category)
     {
-        if (pcModelRepository.findById(serialNum).isPresent()) {
+        if (!pcModelRepository.findById(serialNum).isPresent()) {
             throw new DBContainsModelException();
         }
         Specification<PC> tvSpecification = pcRepository.combinedSpecification(deviceName, country, manufacturer);
