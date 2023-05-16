@@ -1,29 +1,25 @@
 package ru.arrowin.test_task.service;
 
-
-
-import ru.arrowin.test_task.model.devices.TV;
+import ru.arrowin.test_task.model.devices.Vacuum;
 import ru.arrowin.test_task.model.models.Model;
-import ru.arrowin.test_task.model.models.TVModel;
+import ru.arrowin.test_task.model.models.VacuumModel;
 
 import java.util.List;
 
-public interface TVService {
-
-
-    List<TVModel> getTVsByParam(
+public interface VacuumService {
+    List<VacuumModel> getVacuumsByParam(
             String deviceName, String country, String manufacturer, boolean isOnlineOrderAvailable,
             boolean isInstallmentAvailable, String serialNum, String modelName, String color, double maxPrice,
-            double minPrice, boolean isAvailable, String technology, String category);
+            double minPrice, boolean isAvailable, double containerVolume, int modesNum);
 
-    List<Model> getTVsBy(String modelName, String color, Double minPrice, Double maxPrice);
+    List<Model> getVacuumsBy(String modelName, String color, Double minPrice, Double maxPrice);
 
-    TV createTV(
+    Vacuum createVacuum(
             String deviceName, String country, String manufacturer, boolean isOnlineOrderAvailable,
             boolean isInstallmentAvailable);
 
-    TVModel createTVModel(
+    VacuumModel createVacuumModel(
             String deviceName, String country, String manufacturer, String serialNum, String modelName, String color,
-            double Price, double sizeH, double sizeL, double sizeW, boolean isAvailable, String technology,
-            String category);
+            double Price, double sizeH, double sizeL, double sizeW, boolean isAvailable, double containerVolume,
+            int modesNum);
 }

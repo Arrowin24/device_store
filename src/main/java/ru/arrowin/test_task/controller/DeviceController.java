@@ -111,20 +111,22 @@ public class DeviceController {
                                                                 isOnlineOrderAvailable, isInstallmentAvailable,
                                                                 serialNum, modelName, color, maxPrice, minPrice,
                                                                 isAvailable);
-        models = deviceService.sortBy(models, sortType);
-        List<String> modelsToText = deviceService.convertModelsToText(models);
+        models = DeviceService.sortBy(models, sortType);
+        List<String> modelsToText = DeviceService.convertModelsToText(models);
         return ResponseEntity.ok(modelsToText);
     }
 
     @Operation(
-            summary = "Поиск техники по основным параметрам",
-            description = "Получения списка техники с учетом всех фильтров"
+            summary = "Поиск техники по основным параметрам (Тип техники, имя, цвет, пределы стоимости.)",
+            description =
+                    "Получения списка техники с учетом всех фильтров и сортировок. Необходимый вид сортировки " +
+                            "можно задать с помощью поля \"Вид сортировки\""
     )
     @GetMapping(
             path = "/findByParams",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<String>> getDevicesByAllParams(
+    public ResponseEntity<List<String>> getDevicesBy(
             @RequestParam(
                     name = "Тип техники",
                     required = false,
@@ -156,8 +158,8 @@ public class DeviceController {
             ) SortType sortType)
     {
         List<Model> models = deviceService.getDeviceBy(modelType, modelName, color, minPrice, maxPrice);
-        models = deviceService.sortBy(models, sortType);
-        List<String> modelsToText = deviceService.convertModelsToText(models);
+        models = DeviceService.sortBy(models, sortType);
+        List<String> modelsToText = DeviceService.convertModelsToText(models);
         return ResponseEntity.ok(modelsToText);
     }
 

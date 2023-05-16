@@ -5,38 +5,38 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.arrowin.test_task.model.devices.TV;
+import ru.arrowin.test_task.model.devices.Vacuum;
 import ru.arrowin.test_task.model.models.Model;
-import ru.arrowin.test_task.model.models.TVModel;
+import ru.arrowin.test_task.model.models.VacuumModel;
 import ru.arrowin.test_task.service.DeviceService;
-import ru.arrowin.test_task.service.TVService;
+import ru.arrowin.test_task.service.VacuumService;
 import ru.arrowin.test_task.service.impl.SortType;
 
 import java.util.List;
 
 @Tag(
-        name = "Операции c телевизорами",
-        description = "Поиск и добавление новой линейки и моделей телевизоров."
+        name = "Операции c пылесосами",
+        description = "Поиск и добавление новой линейки и моделей пылесосов."
 )
-@RequestMapping("/api/device/tv")
+@RequestMapping("/api/device/vacuum")
 @RestController
-public class TVController {
+public class VacuumController {
 
-    private final TVService tvService;
+    private final VacuumService vacuumService;
 
-    public TVController(TVService tvService) {
-        this.tvService = tvService;
+    public VacuumController(VacuumService vacuumService) {
+        this.vacuumService = vacuumService;
     }
 
     @Operation(
-            summary = "Поиск телевизоров по всем доступным параметрам",
-            description = "Получения списка телевизоров с учетом всех фильтров"
+            summary = "Поиск пылесосов по всем доступным параметрам",
+            description = "Получения списка пылесосов с учетом всех фильтров"
     )
     @GetMapping(
             path = "/getByAttributes",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<String>> getTvs(
+    public ResponseEntity<List<String>> getVacuums(
             @RequestParam(
                     name = "Название линейки",
                     required = false
@@ -87,74 +87,34 @@ public class TVController {
                     defaultValue = "false"
             ) boolean isAvailable,
             @RequestParam(
-                    name = "Технология",
+                    name = "Объем пылесборника",
                     required = false
-            ) String technology,
+            ) double containerVolume,
             @RequestParam(
-                    name = "Категория",
+                    name = "Количество режимов",
                     required = false
-            ) String category,
+            ) int modesNum,
             @RequestParam(
                     name = "Вид сортировки",
                     defaultValue = "BY_NAME_INCREASING"
             ) SortType sortType)
     {
-        List<TVModel> filteredTvModels = tvService.getTVsByParam(deviceName, country, manufacturer,
-                                                                 isOnlineOrderAvailable, isInstallmentAvailable,
-                                                                 serialNum, modelName, color, maxPrice, minPrice,
-                                                                 isAvailable, technology, category);
-        filteredTvModels = DeviceService.sortBy(filteredTvModels, sortType);
-        List<String> answer = DeviceService.convertModelsToText(filteredTvModels);
+        List<VacuumModel> filteredModels = vacuumService.getVacuumsByParam(deviceName, country, manufacturer,
+                                                                           isOnlineOrderAvailable,
+                                                                           isInstallmentAvailable, serialNum, modelName,
+                                                                           color, maxPrice, minPrice, isAvailable,
+                                                                           containerVolume, modesNum);
+        filteredModels = DeviceService.sortBy(filteredModels, sortType);
+        List<String> answer = DeviceService.convertModelsToText(filteredModels);
         return ResponseEntity.ok(answer);
     }
 
     @Operation(
-            summary = "Поиск техники по основным параметрам (Имя модели, цвет, пределы стоимости.)",
-            description =
-                    "Получения списка техники с учетом всех фильтров и сортировок. Необходимый вид сортировки " +
-                            "можно задать с помощью поля \"Вид сортировки\""
+            summary = "Создание новой линейки пылесосов",
+            description = "Создает и добавляет в базу данных новую линейку пылесосов. Есть обязательные поля!"
     )
-    @GetMapping(
-            path = "/findByParams",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<List<String>> getBy(
-            @RequestParam(
-                    name = "Название модели",
-                    required = false
-            ) String modelName,
-            @RequestParam(
-                    name = "Цвет",
-                    required = false
-            ) String color,
-            @RequestParam(
-                    name = "Максимальное значение стоимости",
-                    required = false,
-                    defaultValue = "1000000"
-            ) double maxPrice,
-            @RequestParam(
-                    name = "Минимальное значение стоимости",
-                    required = false,
-                    defaultValue = "0"
-            ) double minPrice,
-            @RequestParam(
-                    name = "Вид сортировки",
-                    required = false,
-                    defaultValue = "BY_NAME_INCREASING"
-            ) SortType sortType)
-    {
-        List<Model> models = tvService.getTVsBy(modelName, color, minPrice, maxPrice);
-        models = DeviceService.sortBy(models, sortType);
-        List<String> modelsToText = DeviceService.convertModelsToText(models);
-        return ResponseEntity.ok(modelsToText);
-    }
-
-    @Operation(
-            summary = "Создание новой линейки телевизоров",
-            description = "Создает и добавляет в базу данных новую линейку телевизоров. Есть обязательные поля!"
-    )
-    @PostMapping("/newTVDevice")
-    public ResponseEntity<TV> createTV(
+    @PostMapping("/newVacuumDevice")
+    public ResponseEntity<Vacuum> createTV(
             @RequestParam(
                     name = "Название линейки"
             ) String deviceName,
@@ -175,17 +135,18 @@ public class TVController {
                     defaultValue = "false"
             ) boolean isInstallmentAvailable)
     {
-        TV tv = tvService.createTV(deviceName, country, manufacturer, isOnlineOrderAvailable, isInstallmentAvailable);
-        return ResponseEntity.ok(tv);
+        Vacuum vacuum = vacuumService.createVacuum(deviceName, country, manufacturer, isOnlineOrderAvailable,
+                                                   isInstallmentAvailable);
+        return ResponseEntity.ok(vacuum);
     }
 
     @Operation(
-            summary = "Создание новой модели в линейку телевизоров",
-            description = "Создает и добавляет в базу данных новую модель телевизоров. Есть обязательные поля! " +
-                    "Убедитесь, что вы добавляете модель в линейку телевизоров, которая уже существует."
+            summary = "Создание новой модели в линейку пылесосов",
+            description = "Создает и добавляет в базу данных новую модель пылесосов. Есть обязательные поля! " +
+                    "Убедитесь, что вы добавляете модель в линейку пылесосов, которая уже существует."
     )
-    @PostMapping("/newTVModel")
-    public ResponseEntity<TVModel> createTVModel(
+    @PostMapping("/newVacuumModel")
+    public ResponseEntity<VacuumModel> createTVModel(
             @RequestParam(
                     name = "Название линейки"
             ) String deviceName,
@@ -232,16 +193,60 @@ public class TVController {
                     defaultValue = "false"
             ) boolean isAvailable,
             @RequestParam(
-                    name = "Технология",
-                    required = false
-            ) String technology,
+                    name = "Объем пылесборника",
+                    required = false,
+                    defaultValue = "0"
+            ) double containerVolume,
             @RequestParam(
-                    name = "Категория",
-                    required = false
-            ) String category)
+                    name = "Количество режимов",
+                    required = false,
+                    defaultValue = "0"
+            ) int modesNum)
     {
-        TVModel tvModel = tvService.createTVModel(deviceName, country, manufacturer, serialNum, modelName, color, price,
-                                                  sizeH, sizeL, sizeW, isAvailable, technology, category);
-        return ResponseEntity.ok(tvModel);
+        VacuumModel model = vacuumService.createVacuumModel(deviceName, country, manufacturer, serialNum, modelName,
+                                                            color, price, sizeH, sizeL, sizeW, isAvailable,
+                                                            containerVolume, modesNum);
+        return ResponseEntity.ok(model);
+    }
+
+    @Operation(
+            summary = "Поиск техники по основным параметрам (Имя модели, цвет, пределы стоимости.)",
+            description =
+                    "Получения списка техники с учетом всех фильтров и сортировок. Необходимый вид сортировки " +
+                            "можно задать с помощью поля \"Вид сортировки\""
+    )
+    @GetMapping(
+            path = "/findByParams",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<String>> getBy(
+            @RequestParam(
+                    name = "Название модели",
+                    required = false
+            ) String modelName,
+            @RequestParam(
+                    name = "Цвет",
+                    required = false
+            ) String color,
+            @RequestParam(
+                    name = "Максимальное значение стоимости",
+                    required = false,
+                    defaultValue = "1000000"
+            ) double maxPrice,
+            @RequestParam(
+                    name = "Минимальное значение стоимости",
+                    required = false,
+                    defaultValue = "0"
+            ) double minPrice,
+            @RequestParam(
+                    name = "Вид сортировки",
+                    required = false,
+                    defaultValue = "BY_NAME_INCREASING"
+            ) SortType sortType)
+    {
+        List<Model> models = vacuumService.getVacuumsBy(modelName, color, minPrice, maxPrice);
+        models = DeviceService.sortBy(models, sortType);
+        List<String> modelsToText = DeviceService.convertModelsToText(models);
+        return ResponseEntity.ok(modelsToText);
     }
 }

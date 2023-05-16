@@ -25,10 +25,10 @@ public class SmartPhoneModel extends Model {
     @Override
     public String toText() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Тип товара: Смартфон").append(" ");
+        stringBuilder.append("Тип товара: Смартфон").append("; ");
         stringBuilder.append(super.toText());
-        stringBuilder.append("Количество камер: ").append(cameraNums).append(" ");
-        stringBuilder.append("ОЗУ: ").append(memory).append(" ");
+        stringBuilder.append("Количество камер: ").append(cameraNums).append("; ");
+        stringBuilder.append("ОЗУ: ").append(memory).append("; ");
         stringBuilder.append(smartphone.toText());
         return stringBuilder.toString();
     }

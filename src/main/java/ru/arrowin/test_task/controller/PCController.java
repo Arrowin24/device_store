@@ -5,32 +5,32 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.arrowin.test_task.model.devices.TV;
+import ru.arrowin.test_task.model.devices.PC;
 import ru.arrowin.test_task.model.models.Model;
-import ru.arrowin.test_task.model.models.TVModel;
+import ru.arrowin.test_task.model.models.PCModel;
 import ru.arrowin.test_task.service.DeviceService;
-import ru.arrowin.test_task.service.TVService;
+import ru.arrowin.test_task.service.PCService;
 import ru.arrowin.test_task.service.impl.SortType;
 
 import java.util.List;
 
 @Tag(
-        name = "Операции c телевизорами",
-        description = "Поиск и добавление новой линейки и моделей телевизоров."
+        name = "Операции c компьютерами",
+        description = "Поиск и добавление новой линейки и моделей компьютеров."
 )
-@RequestMapping("/api/device/tv")
+@RequestMapping("/api/device/pc")
 @RestController
-public class TVController {
+public class PCController {
 
-    private final TVService tvService;
+    private final PCService pcService;
 
-    public TVController(TVService tvService) {
-        this.tvService = tvService;
+    public PCController(PCService pcService) {
+        this.pcService = pcService;
     }
 
     @Operation(
-            summary = "Поиск телевизоров по всем доступным параметрам",
-            description = "Получения списка телевизоров с учетом всех фильтров"
+            summary = "Поиск компьютеров по всем доступным параметрам",
+            description = "Получения списка компьютеров с учетом всех фильтров"
     )
     @GetMapping(
             path = "/getByAttributes",
@@ -87,9 +87,9 @@ public class TVController {
                     defaultValue = "false"
             ) boolean isAvailable,
             @RequestParam(
-                    name = "Технология",
+                    name = "Тип процессора",
                     required = false
-            ) String technology,
+            ) String processorType,
             @RequestParam(
                     name = "Категория",
                     required = false
@@ -99,12 +99,12 @@ public class TVController {
                     defaultValue = "BY_NAME_INCREASING"
             ) SortType sortType)
     {
-        List<TVModel> filteredTvModels = tvService.getTVsByParam(deviceName, country, manufacturer,
-                                                                 isOnlineOrderAvailable, isInstallmentAvailable,
-                                                                 serialNum, modelName, color, maxPrice, minPrice,
-                                                                 isAvailable, technology, category);
-        filteredTvModels = DeviceService.sortBy(filteredTvModels, sortType);
-        List<String> answer = DeviceService.convertModelsToText(filteredTvModels);
+        List<PCModel> filteredModels = pcService.getPCsByParam(deviceName, country, manufacturer,
+                                                               isOnlineOrderAvailable, isInstallmentAvailable,
+                                                               serialNum, modelName, color, maxPrice, minPrice,
+                                                               isAvailable, processorType, category);
+        filteredModels = DeviceService.sortBy(filteredModels, sortType);
+        List<String> answer = DeviceService.convertModelsToText(filteredModels);
         return ResponseEntity.ok(answer);
     }
 
@@ -143,18 +143,18 @@ public class TVController {
                     defaultValue = "BY_NAME_INCREASING"
             ) SortType sortType)
     {
-        List<Model> models = tvService.getTVsBy(modelName, color, minPrice, maxPrice);
+        List<Model> models = pcService.getPCsBy(modelName, color, minPrice, maxPrice);
         models = DeviceService.sortBy(models, sortType);
         List<String> modelsToText = DeviceService.convertModelsToText(models);
         return ResponseEntity.ok(modelsToText);
     }
 
     @Operation(
-            summary = "Создание новой линейки телевизоров",
-            description = "Создает и добавляет в базу данных новую линейку телевизоров. Есть обязательные поля!"
+            summary = "Создание новой линейки компьютеров",
+            description = "Создает и добавляет в базу данных новую линейку компьютеров. Есть обязательные поля!"
     )
-    @PostMapping("/newTVDevice")
-    public ResponseEntity<TV> createTV(
+    @PostMapping("/newPCDevice")
+    public ResponseEntity<PC> createTV(
             @RequestParam(
                     name = "Название линейки"
             ) String deviceName,
@@ -175,17 +175,17 @@ public class TVController {
                     defaultValue = "false"
             ) boolean isInstallmentAvailable)
     {
-        TV tv = tvService.createTV(deviceName, country, manufacturer, isOnlineOrderAvailable, isInstallmentAvailable);
-        return ResponseEntity.ok(tv);
+        PC pc = pcService.createPC(deviceName, country, manufacturer, isOnlineOrderAvailable, isInstallmentAvailable);
+        return ResponseEntity.ok(pc);
     }
 
     @Operation(
-            summary = "Создание новой модели в линейку телевизоров",
-            description = "Создает и добавляет в базу данных новую модель телевизоров. Есть обязательные поля! " +
-                    "Убедитесь, что вы добавляете модель в линейку телевизоров, которая уже существует."
+            summary = "Создание новой модели в линейку компьютеров",
+            description = "Создает и добавляет в базу данных новую модель компьютеров. Есть обязательные поля! " +
+                    "Убедитесь, что вы добавляете модель в линейку компьютеров, которая уже существует."
     )
-    @PostMapping("/newTVModel")
-    public ResponseEntity<TVModel> createTVModel(
+    @PostMapping("/newPCModel")
+    public ResponseEntity<PCModel> createTVModel(
             @RequestParam(
                     name = "Название линейки"
             ) String deviceName,
@@ -232,16 +232,16 @@ public class TVController {
                     defaultValue = "false"
             ) boolean isAvailable,
             @RequestParam(
-                    name = "Технология",
+                    name = "Тип процессора",
                     required = false
-            ) String technology,
+            ) String processorType,
             @RequestParam(
                     name = "Категория",
                     required = false
             ) String category)
     {
-        TVModel tvModel = tvService.createTVModel(deviceName, country, manufacturer, serialNum, modelName, color, price,
-                                                  sizeH, sizeL, sizeW, isAvailable, technology, category);
-        return ResponseEntity.ok(tvModel);
+        PCModel pcModel = pcService.createPCModel(deviceName, country, manufacturer, serialNum, modelName, color, price,
+                                                  sizeH, sizeL, sizeW, isAvailable, processorType, category);
+        return ResponseEntity.ok(pcModel);
     }
 }

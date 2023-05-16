@@ -23,15 +23,16 @@ public abstract class Model {
 
     public String toText() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Модель: ").append(modelName).append(" ");
-        stringBuilder.append("Цена: ").append(price).append(" ");
-        stringBuilder.append("Цвет: ").append(color).append(" ");
+        stringBuilder.append("Модель: ").append(modelName).append("; ");
+        stringBuilder.append("Серийный номер: ").append(serialNum).append("; ");
+        stringBuilder.append("Цена: ").append(price).append("; ");
+        stringBuilder.append("Цвет: ").append(color).append("; ");
         stringBuilder.append("Размеры (д/ш/в): ").append(sizeLength).append("/").append(sizeWidth).append("/")
-                     .append(sizeHeight).append(" ");
+                     .append(sizeHeight).append("; ");
         if (isAvailable) {
-            stringBuilder.append("Товар в наличи").append(" ");
+            stringBuilder.append("Товар в наличи").append("; ");
         } else {
-            stringBuilder.append("Товара нет в наличии").append(" ");
+            stringBuilder.append("Товара нет в наличии").append("; ");
         }
         return stringBuilder.toString();
     }

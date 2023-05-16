@@ -28,10 +28,10 @@ public class TVModel extends Model {
     @Override
     public String toText() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Тип товара: Телевизор").append(" ");
+        stringBuilder.append("Тип товара: Телевизор").append("; ");
         stringBuilder.append(super.toText());
-        stringBuilder.append("Категория: ").append(category).append(" ");
-        stringBuilder.append("Тип технологии: ").append(technology).append(" ");
+        stringBuilder.append("Категория: ").append(category).append("; ");
+        stringBuilder.append("Тип технологии: ").append(technology).append("; ");
         stringBuilder.append(tv.toText());
         return stringBuilder.toString();
     }

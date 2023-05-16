@@ -27,10 +27,10 @@ public class RefrigeratorModel extends Model {
     @Override
     public String toText() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Тип товара: Холодильник").append(" ");
+        stringBuilder.append("Тип товара: Холодильник").append("; ");
         stringBuilder.append(super.toText());
-        stringBuilder.append("Количество дверей: ").append(doorsNum).append(" ");
-        stringBuilder.append("Тип компрессора: ").append(compressorType).append(" ");
+        stringBuilder.append("Количество дверей: ").append(doorsNum).append("; ");
+        stringBuilder.append("Тип компрессора: ").append(compressorType).append("; ");
         stringBuilder.append(refrigerator.toText());
         return stringBuilder.toString();
     }

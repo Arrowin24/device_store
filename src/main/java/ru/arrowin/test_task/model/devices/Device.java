@@ -33,18 +33,18 @@ public abstract class Device {
 
     public String toText() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Наименование устройства: ").append(deviceName).append(" ");
-        stringBuilder.append("Страна производства: ").append(country).append(" ");
-        stringBuilder.append("Фирма производитель: ").append(manufacturer).append(" ");
+        stringBuilder.append("Наименование устройства: ").append(deviceName).append("; ");
+        stringBuilder.append("Страна производства: ").append(country).append("; ");
+        stringBuilder.append("Фирма производитель: ").append(manufacturer).append("; ");
         if (isOnlineOrderAvailable) {
-            stringBuilder.append("Доступен для онлайн заказа").append(" ");
+            stringBuilder.append("Доступен для онлайн заказа").append("; ");
         } else {
-            stringBuilder.append("Не доступен для онлайн заказа").append(" ");
+            stringBuilder.append("Не доступен для онлайн заказа").append("; ");
         }
         if (isInstallmentAvailable) {
-            stringBuilder.append("Доступен для рассрочки").append(" ");
+            stringBuilder.append("Доступен для рассрочки").append("; ");
         } else {
-            stringBuilder.append("Не доступен для рассрочки").append(" ");
+            stringBuilder.append("Не доступен для рассрочки").append("; ");
         }
         return stringBuilder.toString();
     }

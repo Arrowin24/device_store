@@ -27,10 +27,10 @@ public class VacuumModel extends Model {
     @Override
     public String toText() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Тип товара: Холодильник").append(" ");
+        stringBuilder.append("Тип товара: Холодильник").append("; ");
         stringBuilder.append(super.toText());
-        stringBuilder.append("Объем пылесборника: ").append(containerVolume).append(" ");
-        stringBuilder.append("Количество режимов: ").append(modesNum).append(" ");
+        stringBuilder.append("Объем пылесборника: ").append(containerVolume).append("; ");
+        stringBuilder.append("Количество режимов: ").append(modesNum).append("; ");
         stringBuilder.append(vacuum.toText());
         return stringBuilder.toString();
     }

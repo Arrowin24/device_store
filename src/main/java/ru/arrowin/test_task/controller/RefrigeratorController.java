@@ -5,38 +5,38 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.arrowin.test_task.model.devices.TV;
+import ru.arrowin.test_task.model.devices.Refrigerator;
 import ru.arrowin.test_task.model.models.Model;
-import ru.arrowin.test_task.model.models.TVModel;
+import ru.arrowin.test_task.model.models.RefrigeratorModel;
 import ru.arrowin.test_task.service.DeviceService;
-import ru.arrowin.test_task.service.TVService;
+import ru.arrowin.test_task.service.RefrigeratorService;
 import ru.arrowin.test_task.service.impl.SortType;
 
 import java.util.List;
 
 @Tag(
-        name = "Операции c телевизорами",
-        description = "Поиск и добавление новой линейки и моделей телевизоров."
+        name = "Операции c холодильниками",
+        description = "Поиск и добавление новой линейки и моделей холодильников."
 )
-@RequestMapping("/api/device/tv")
+@RequestMapping("/api/device/refrigerator")
 @RestController
-public class TVController {
+public class RefrigeratorController {
 
-    private final TVService tvService;
+    private final RefrigeratorService refrigeratorService;
 
-    public TVController(TVService tvService) {
-        this.tvService = tvService;
+    public RefrigeratorController(RefrigeratorService refrigeratorService) {
+        this.refrigeratorService = refrigeratorService;
     }
 
     @Operation(
-            summary = "Поиск телевизоров по всем доступным параметрам",
-            description = "Получения списка телевизоров с учетом всех фильтров"
+            summary = "Поиск холодильников по всем доступным параметрам",
+            description = "Получения списка холодильников с учетом всех фильтров"
     )
     @GetMapping(
             path = "/getByAttributes",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<String>> getTvs(
+    public ResponseEntity<List<String>> getRefrigerators(
             @RequestParam(
                     name = "Название линейки",
                     required = false
@@ -87,24 +87,28 @@ public class TVController {
                     defaultValue = "false"
             ) boolean isAvailable,
             @RequestParam(
-                    name = "Технология",
+                    name = "Количество дверей",
                     required = false
-            ) String technology,
+            ) int doorsNum,
             @RequestParam(
-                    name = "Категория",
+                    name = "Тип компрессора",
                     required = false
-            ) String category,
+            ) String compressorType,
             @RequestParam(
                     name = "Вид сортировки",
                     defaultValue = "BY_NAME_INCREASING"
             ) SortType sortType)
     {
-        List<TVModel> filteredTvModels = tvService.getTVsByParam(deviceName, country, manufacturer,
-                                                                 isOnlineOrderAvailable, isInstallmentAvailable,
-                                                                 serialNum, modelName, color, maxPrice, minPrice,
-                                                                 isAvailable, technology, category);
-        filteredTvModels = DeviceService.sortBy(filteredTvModels, sortType);
-        List<String> answer = DeviceService.convertModelsToText(filteredTvModels);
+        List<RefrigeratorModel> filteredModels = refrigeratorService.getRefrigeratorsByParam(deviceName, country,
+                                                                                             manufacturer,
+                                                                                             isOnlineOrderAvailable,
+                                                                                             isInstallmentAvailable,
+                                                                                             serialNum, modelName,
+                                                                                             color, maxPrice, minPrice,
+                                                                                             isAvailable, doorsNum,
+                                                                                             compressorType);
+        filteredModels = DeviceService.sortBy(filteredModels, sortType);
+        List<String> answer = DeviceService.convertModelsToText(filteredModels);
         return ResponseEntity.ok(answer);
     }
 
@@ -143,18 +147,18 @@ public class TVController {
                     defaultValue = "BY_NAME_INCREASING"
             ) SortType sortType)
     {
-        List<Model> models = tvService.getTVsBy(modelName, color, minPrice, maxPrice);
+        List<Model> models = refrigeratorService.getRefrigeratorsBy(modelName, color, minPrice, maxPrice);
         models = DeviceService.sortBy(models, sortType);
         List<String> modelsToText = DeviceService.convertModelsToText(models);
         return ResponseEntity.ok(modelsToText);
     }
 
     @Operation(
-            summary = "Создание новой линейки телевизоров",
-            description = "Создает и добавляет в базу данных новую линейку телевизоров. Есть обязательные поля!"
+            summary = "Создание новой линейки холодильников",
+            description = "Создает и добавляет в базу данных новую линейку холодильников. Есть обязательные поля!"
     )
-    @PostMapping("/newTVDevice")
-    public ResponseEntity<TV> createTV(
+    @PostMapping("/newRefrigeratorDevice")
+    public ResponseEntity<Refrigerator> createTV(
             @RequestParam(
                     name = "Название линейки"
             ) String deviceName,
@@ -175,17 +179,19 @@ public class TVController {
                     defaultValue = "false"
             ) boolean isInstallmentAvailable)
     {
-        TV tv = tvService.createTV(deviceName, country, manufacturer, isOnlineOrderAvailable, isInstallmentAvailable);
-        return ResponseEntity.ok(tv);
+        Refrigerator refrigerator = refrigeratorService.createRefrigerator(deviceName, country, manufacturer,
+                                                                           isOnlineOrderAvailable,
+                                                                           isInstallmentAvailable);
+        return ResponseEntity.ok(refrigerator);
     }
 
     @Operation(
-            summary = "Создание новой модели в линейку телевизоров",
-            description = "Создает и добавляет в базу данных новую модель телевизоров. Есть обязательные поля! " +
-                    "Убедитесь, что вы добавляете модель в линейку телевизоров, которая уже существует."
+            summary = "Создание новой модели в линейку холодильников",
+            description = "Создает и добавляет в базу данных новую модель холодильников. Есть обязательные поля! " +
+                    "Убедитесь, что вы добавляете модель в линейку холодильников, которая уже существует."
     )
-    @PostMapping("/newTVModel")
-    public ResponseEntity<TVModel> createTVModel(
+    @PostMapping("/newRefrigeratorModel")
+    public ResponseEntity<RefrigeratorModel> createTVModel(
             @RequestParam(
                     name = "Название линейки"
             ) String deviceName,
@@ -232,16 +238,19 @@ public class TVController {
                     defaultValue = "false"
             ) boolean isAvailable,
             @RequestParam(
-                    name = "Технология",
-                    required = false
-            ) String technology,
+                    name = "Количество дверей",
+                    required = false,
+                    defaultValue = "0"
+            ) int doorsNum,
             @RequestParam(
-                    name = "Категория",
+                    name = "Тип компрессора",
                     required = false
-            ) String category)
+            ) String compressorType)
     {
-        TVModel tvModel = tvService.createTVModel(deviceName, country, manufacturer, serialNum, modelName, color, price,
-                                                  sizeH, sizeL, sizeW, isAvailable, technology, category);
-        return ResponseEntity.ok(tvModel);
+        RefrigeratorModel model = refrigeratorService.createRefrigeratorModel(deviceName, country, manufacturer,
+                                                                              serialNum, modelName, color, price, sizeH,
+                                                                              sizeL, sizeW, isAvailable, doorsNum,
+                                                                              compressorType);
+        return ResponseEntity.ok(model);
     }
 }

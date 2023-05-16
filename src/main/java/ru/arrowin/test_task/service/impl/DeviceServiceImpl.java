@@ -7,9 +7,7 @@ import ru.arrowin.test_task.service.DeviceService;
 import ru.arrowin.test_task.service.repository.model.*;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class DeviceServiceImpl implements DeviceService {
@@ -114,30 +112,5 @@ public class DeviceServiceImpl implements DeviceService {
         return models;
     }
 
-    @Override
-    public List<String> convertModelsToText(List<Model> models) {
-        return models.stream().map(Model::toText).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Model> sortBy(List<Model> models, SortType sortType) {
-
-        switch (sortType) {
-            case BY_NAME_INCREASING:
-                return models.stream().sorted(Comparator.comparing(m -> m.getModelName().toLowerCase()))
-                             .collect(Collectors.toList());
-            case BY_NAME_DECREASING:
-                return models.stream().sorted(Comparator.comparing(m -> m.getModelName().toLowerCase(),
-                                                                   Comparator.reverseOrder()))
-                             .collect(Collectors.toList());
-            case BY_PRICE_INCREASING:
-                return models.stream().sorted(Comparator.comparing(Model::getPrice)).collect(Collectors.toList());
-            case BY_PRICE_DECREASING:
-                return models.stream().sorted(Comparator.comparing(Model::getPrice, Comparator.reverseOrder()))
-                             .collect(Collectors.toList());
-            default:
-                return models;
-        }
-    }
 
 }
